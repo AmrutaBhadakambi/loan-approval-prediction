@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan Approval Prediction</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f2f2f2;
+        }
+
+        .container{
+            width:400px;
+            margin:40px auto;
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+        }
+
+        h2{
+            text-align:center;
+            color:blue;
+        }
+
+        input{
+            width:100%;
+            padding:10px;
+            margin:8px 0;
+        }
+
+        button{
+            width:100%;
+            padding:10px;
+            background:green;
+            color:white;
+            border:none;
+            font-size:16px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:darkgreen;
+        }
+
+        h3{
+            text-align:center;
+            color:red;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Loan Approval Prediction</h2>
+
+<form action="/predict" method="post">
+
+<input type="number" name="name" placeholder="Name Code" required>
+
+<input type="number" name="city" placeholder="City Code" required>
+
+<input type="number" name="income" placeholder="Income" required>
+
+<input type="number" name="credit_score" placeholder="Credit Score" required>
+
+<input type="number" name="loan_amount" placeholder="Loan Amount" required>
+
+<input type="number" name="years_employed" placeholder="Years Employed" required>
+
+<input type="number" name="points" placeholder="Points" required>
+
+<button type="submit">Predict</button>
+
+</form>
+
+{% if prediction_text %}
+<h3>{{ prediction_text }}</h3>
+{% endif %}
+
+</div>
+
+</body>
+</html>
