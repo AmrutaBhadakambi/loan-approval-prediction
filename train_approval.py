@@ -1,4 +1,6 @@
 #import the packages
+import warnings
+warnings.filterwarnings("ignore")
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -20,6 +22,15 @@ from sklearn.metrics import (
 )    
 #read the dataset
 df = pd.read_csv("loan_approval.csv")
+
+name_encoder = LabelEncoder()
+df['name_code'] = name_encoder.fit_transform(df['name'])
+
+city_encoder = LabelEncoder()
+df['city_code'] = city_encoder.fit_transform(df['city'])
+
+print(df[['name', 'name_code']].head(20))
+print(df[['city', 'city_code']].head(20))
 print("First 5 Records")
 print(df.head())
 print("\nDataset Shape")
@@ -94,7 +105,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 model = LogisticRegression(max_iter=1000)
 # 8. MODEL TRAINING
 # -----------------------------
-
+print("The 9 columns are:",X.columns.tolist())
 model.fit(X_train, y_train)
 
 print("\nModel Training Completed")
@@ -143,8 +154,25 @@ coef = pd.DataFrame({
 print("\nFeature Importance")
 print(coef.sort_values(by="Coefficient", ascending=False))
  
-joblib.dump(model, "model.pk1")
+joblib.dump(model, "loan_approval_model.pkl")
 print("model saved successfully!")
+# User input
+name = input("Enter Name: ")
+city = input("Enter City: ")
+income = float(input("Enter Income: "))
+loan_amount = float(input("Enter Loan Amount: "))
+credit_score = float(input("Enter Credit Score: "))
+years_employ = float(input("Enter Years of Employment: "))
+points = float(input("Enter Points: "))
 
+# Encode text inputs
+name_code = name_encoder.transform([name])[0]
+city_code = city_encoder.transform([city])[0]
 
-
+# Pass all 9 features in the correct order
+prediction = model.predict([[name_code, city_code, income, credit_score, loan_amount, years_employ, points, 0, 0]])
+# Assuming your original input variables are named 'name' and 'city'
+if prediction[0] == 1:  # (or whatever value indicates approval in your model)
+    print(f"Name: {name} | City: {city} -> Loan Approved")
+else:
+    print(f"Name: {name} | City: {city} -> Loan Rejected")
