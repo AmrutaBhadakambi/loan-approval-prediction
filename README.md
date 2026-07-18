@@ -26,6 +26,8 @@ To simplify the loan approval process by predicting loan eligibility using Machi
 - Anjana
 - Varsha
 - Pragati
+- Neha
+  
 
 ## Project Structure
 - app.py
